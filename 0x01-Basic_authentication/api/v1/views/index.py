@@ -11,7 +11,7 @@ def authorized() -> str:
     Return:
         - raise a 401 error
     """
-    abort(401, description="Unauthorized")
+    abort(401)
 
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
@@ -20,7 +20,7 @@ def forbid() -> str:
     Return:
         - raise a 403 error
     """
-    abort(403, description="Forbidden")
+    abort(403)
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
