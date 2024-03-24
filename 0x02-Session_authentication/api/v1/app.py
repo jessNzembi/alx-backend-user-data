@@ -30,6 +30,7 @@ elif AUTH_TYPE == "ssession_db_auth":
     from api.v1.auth.session_db_auth import SessionDBAuth
     auth = SessionDBAuth()
 
+
 @app.before_request
 def bef_req():
     """
