@@ -20,7 +20,15 @@ if AUTH_TYPE == "auth":
 elif AUTH_TYPE == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
-
+elif AUTH_TYPE == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
+elif AUTH_TYPE == "session_exp_auth":
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
+elif AUTH_TYPE == "ssession_db_auth":
+    from api.v1.auth.session_db_auth import SessionDBAuth
+    auth = SessionDBAuth()
 
 @app.before_request
 def bef_req():
@@ -34,13 +42,16 @@ def bef_req():
         excluded = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
-            '/api/v1/forbidden/'
+            '/api/v1/forbidden/',
+            '/api/v1/auth_session/login/'
         ]
+
         if auth.require_auth(request.path, excluded):
             if auth.authorization_header(request) is None:
-                abort(401, description="Unauthorized")
+                if auth.session_cookie(request) is None:
+                    abort(401)
             if request.current_user is None:
-                abort(403, description="Forbidden")
+                abort(403)
 
 
 @app.errorhandler(404)
