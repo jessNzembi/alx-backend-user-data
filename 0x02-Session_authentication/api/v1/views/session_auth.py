@@ -9,6 +9,7 @@ from models.user import User
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def session_auth_login():
+    """ login view"""
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -44,6 +45,7 @@ def session_auth_login():
 @app_views.route('/auth_session/logout',
                  methods=['DELETE'], strict_slashes=False)
 def logout():
+    """ logout view"""
     from api.v1.app import auth
 
     destroy_session = auth.destroy_session(request)
